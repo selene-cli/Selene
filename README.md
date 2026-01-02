@@ -60,8 +60,6 @@
 
 ## Descarga
 
-> Recomendación:) instalar en VM/container de pruebas antes de ejecutar en un host de producción.
-
 ```bash
 # clonar repo
 git clone https://github.com/selene-cli/selene.git
