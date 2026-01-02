@@ -24,11 +24,8 @@
 
 ## ✅ Resumen rápido
 
-* Proyecto: `selene-cli`
-* Comando sugerido: `selene`
 * Backend IA por defecto: **g4f** (configurable)
 * Synapse = capa que inspecciona respuestas de la IA, detecta órdenes y aplica políticas (allow/confirm/deny).
-* Modos: `safe`, `audit`, `full` (por defecto `safe`).
 * Enfoque: **seguridad primero** — la IA puede sugerir, Synapse decide.
 
 ---
@@ -61,36 +58,17 @@
 
 ---
 
-## Instalación (ejemplo)
+## Descarga
 
 > Recomendación:) instalar en VM/container de pruebas antes de ejecutar en un host de producción.
 
 ```bash
 # clonar repo
-git clone https://github.com/<tu-usuario>/selene-cli.git
+git clone https://github.com/selene-cli/selene.git
 cd selene-cli
 
-# crear virtualenv (recomendado)
-python -m venv .venv
-source .venv/bin/activate
+python selene.py
 
-# instalar dependencias
-pip install -r requirements.txt
-
-# ejecutar
-python -m selene
-# o instalar con pip
-pip install .
-selene
-```
-
-`requirements.txt` mínimo sugerido:
-
-```
-requests
-pyjwt
-python-dotenv
-# opcionales según proveedores/funcionalidades
 ```
 
 ---
@@ -103,37 +81,6 @@ Synapse es responsable de:
 2. Parsear posibles comandos (regex + heurísticas + parser robusto).
 3. Clasificar la acción con la política `allow/confirm/deny`.
 4. Gestionar confirmaciones interactivas cuando se requiere.
-5. Mantener contexto (historial, variables de entorno, estado de sesión).
-6. Registrar todo en el *audit log*.
-
----
-
-## Código ejemplo: g4f wrapper (skeleton)
-
-> No incluye llamadas a providers concretos; g4f es un agregador. Este wrapper es conceptual.
-
-```python
-# selene/providers/g4f_provider.py
-import time
-
-class G4FProvider:
-    def __init__(self, options: dict):
-        self.options = options
-
-    def ask(self, prompt: str, context: dict = None) -> str:
-        """
-        Envía prompt a g4f y devuelve texto generado.
-        Aquí deberías implementar el cliente `g4f` real o la llamada HTTP
-        al endpoint que uses. Este es un stub.
-        """
-        # Ejemplo: si usas la librería 'g4f', aquí harías:
-        # import g4f
-        # return g4f.ChatCompletion.create(...)
-
-        # Stub: respuesta dummy
-        time.sleep(0.2)
-        return "Ejemplo: `ls -la /var/log`"
-```
 
 ---
 
@@ -157,15 +104,8 @@ class G4FProvider:
 
 ## Prompting / Contexto (cómo enviar prompts a g4f)
 
-* Incluye siempre: versión de Selene, modo actual, resumen de las últimas N interacciones (no demasiado largas).
+* Incluye si lo configuras: Envío se sistena operativo
 * Pide a la IA que **identifique claramente** los comandos propuestos dentro de bloques de código (`` `comando` ``) para facilitar el parsing.
-* Ejemplo de prompt:
-
-```
-Eres un asistente de sistema. Si propones un comando, ponlo entre backticks. 
-Contexto: modo=safe, último comando de usuario="ver logs nginx".
-Pregunta: ¿qué comando ejecutarías para ver los últimos 200 errores del nginx?
-```
 
 ---
 
@@ -212,7 +152,7 @@ GNU GPLv3
 **R:** Synapse aplica búsqueda de patrones `deny_patterns` y sanitiza. Recomendable tener múltiples capas: regex, heurísticas y validación por lista blanca.
 
 ```
-# Selene-cli 🌙
+# Selene 🌙
 **Emulador de terminal asistido por IA (experimental) — Synapse controla la ejecución.**
 ```
 
