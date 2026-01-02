@@ -144,9 +144,6 @@ GNU GPLv3
 **P:** ¿Puedo ejecutar scripts completos?
 **R:** Sí, pero Synapse debería pedir confirmación según políticas; evita ejecutar scripts sin revisión.
 
-**P:** ¿Synapse puede aprender políticas?
-**R:** Puede extenderse: almacenar decisiones del usuario y proponer reglas automáticas, pero ten cuidado con la automatización sin supervisión.
-
 **P:** ¿Qué pasa si la IA intenta inyectar un comando peligroso en texto largo?
 **R:** Synapse aplica búsqueda de patrones `deny_patterns` y sanitiza. Recomendable tener múltiples capas: regex, heurísticas y validación por lista blanca.
 
